@@ -133,35 +133,37 @@ print(largeScenario$Variances)
 % ----- Data Analysis -----
 \section{Analysis}
 
-
-\subsection{Global observations}
-Figure 1 shows the mean estimations from the two experiments. The upper for the small scenario and the lower for the high estimate. 
-It is observed that for all estimators, the variance decreases as the sample size increases, which aligns with the formula derived from the Central Limit Theorem. 
-
-\begin{equation}\mathrm{Var}(\bar{x}) = \frac{\sigma^2}{n}\end{equation}
-
 \subsection{Observations from the small scenario}
 
-\begin{itemize}
-    \item $\hat{N}_2$ is most accurate overall with inaccuracy in smaller sample sizes. 
-    \item $\hat{N}_1$ is most accurate for smaller sample sizes and demonstrates higher consistency, with a marginally lower variance.
-    \item $\hat{N}_3$ is relatively inaccurate with a high variance which leads to low consistency 
-\end{itemize}
+
+    $\hat{N}_2$ is most accurate overall with inaccuracy in smaller sample sizes. $\hat{N}_1$ is most accurate for smaller sample sizes and demonstrates higher consistency, with a marginally lower variance.$\hat{N}_3$ is relatively inaccurate with a high variance which leads to low consistency. 
+
 
 \subsection{Observations from the large scenario}
 
-\begin{itemize}
-    \item $\hat{N}_2$ is most accurate overall with inaccuracy in smaller sample sizes. 
-    \item $\hat{N}_1$ generally exhibits the lowest variance but has high inaccuracies for smaller sample sizes.
-    \item $\hat{N}_3$ is relatively inaccurate with a high variance which leads to low consistency. 
-\end{itemize}
+
+    $\hat{N}_2$ is most accurate overall with inaccuracy in smaller sample sizes.$\hat{N}_1$ generally exhibits the lowest variance but has high inaccuracies for smaller sample sizes.$\hat{N}_3$ is relatively inaccurate with a high variance which leads to low consistency. 
+
+\subsection{Discussion}
+
+\begin{comment}
+Figure 1 shows the mean estimations from the two experiments. The upper part of the figure for the small scenario and the lower part for the large scenario. It is observed that for all estimators, the variance decreases as the sample size increases, which aligns with the formula derived from the Central Limit Theorem. 
+\end{comment}
+
+In Figure 1, it is clear that all all estimators generally follow the Law of Large Numbers, where larger sample sizes tend to produce smaller variances, making the estimators more consistent and stable. However, there are still apparent spikes and deviations from this behavior. For example, in the large scenario, $\hat{N}_3$ variance jumps from 193 to 723 before eventually decreasing.
+
+This can be explained by the sensitivity of the estimator to outliers or inherent instability when working with random sampling. The high variance of 723 demonstrates how unstable $\hat{N}_3$ can be when dealing with extreme values in the sample. This result is not an anomaly but highlights the nature of $\hat{N}_3$. The reason is that $\hat{N}_3$ is based on the sample mean, which is highly susceptible to outliers or extreme values, especially for small sample sizes.
+
+To address this, increasing the sample size and the number of repetitions would help stabilize the variance for all estimators, but especially for $\hat{N}_3$.
+
 
 \subsection{Conclusions}
 
 \begin{itemize}
-    \item $\hat{N}_1$ is more accurate in lower population than larger. Has overall a low variance. 
-    \item $\hat{N}_2$ is the most accurate estimator in both scenarios, only under performing in some cases compared to $\hat{N}_1$. 
-    \item $\hat{N}_3$ is most inaccurate with a high variance which leads to a high inconsistency.
+    \item $\hat{N}_1$: Best suited for smaller N values. Consistent with low variance. 
+    \item $\hat{N}_2$: The most accurate estimator in both small and large scenarios.
+    \item $\hat{N}_3$: Highly unstable, particularly with small sample sizes, due to its reliance on the sample mean, which is prone to large variances from extreme values.
+    \item Law of Large Numbers: Observed in general trends, but temporary spikes can still occur, especially in $\hat{N}_3$ due to sensitivity to random fluctuations.
 \end{itemize}
 
 \end{document}
