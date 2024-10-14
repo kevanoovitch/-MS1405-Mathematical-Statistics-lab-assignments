@@ -57,21 +57,13 @@ calc_mse = function(estimates, true_value){
     return(mean((estimates) - true_value)^2)
 }
 
-manual_kurtosis = function(x) {
-    n = length(x)
-    mean_x = mean(x)
-    s2 = sum((x - mean_x)^2) / n  # Variance
-    s4 = sum((x - mean_x)^4) / n  # Fourth central moment
-    return(s4 / (s2^2) - 3)  # Excess kurtosis
-}
 
 calculate_metrics = function(estimates, true_value){
     mean_estimate = mean(estimates)
     bias = calc_bias(estimates,true_value)
     mse = calc_mse(estimates,true_value)
     skewness_val = skewness(estimates)
-    kurtosis_val = kurtosis(estimates)
-    #kurtosis_val = manual_kurtosis(estimates) 
+    kurtosis_val = kurtosis(estimates) 
 
     return(list(mean = mean_estimate, bias = bias, mse=mse, skewness = skewness_val,kurtosis=kurtosis_val))
 }
@@ -105,7 +97,7 @@ clean_results = function(result, true_mu) {
             converged_estimates[[i]] = res$par  # Store the estimated parameter
         }
     }
-
+    
     # Convert the list of converged estimates to a numeric vector
     converged_estimates = unlist(converged_estimates)
 
@@ -226,7 +218,7 @@ all_results = list()
     # Plot Bias vs MSE scatter plot
     print(plot_bias_vs_mse(bias_mse_df))
 
-  
+ 
     
 
 

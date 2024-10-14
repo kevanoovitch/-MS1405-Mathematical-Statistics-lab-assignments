@@ -10,16 +10,16 @@
 \usepackage{minted}
 
 
-\title{Report I}
+\title{Report II}
 \author{Kevin Deshayes}
-\date{\2024-10-02}
+\date{\2024-10-14}
 
 \begin{document}
 
 % ----- Title Page -----
 \begin{titlepage}
   \centering
-  {\huge\bfseries Report on Lab 1 \\[1cm]}  % Title
+  {\huge\bfseries Report on Lab 2 \\[1cm]}  % Title
   \textbf{Author:} Kevin Deshayes\\[0.5cm]  % Author Name
   \textbf{Email:} kede23@student.bth.se\\[0.5cm]  % Email
   \textbf{Course Name:} Mathematical Statistics \\[0.5cm]  % Course Name
@@ -48,13 +48,13 @@
   \centering
   \begin{tabular}{|c|c|c|c|c|c|}
     \hline
-    $n$ & Mean     & Bias        & MSE          & Skewness      & Kurtosis \\
+    $n$ & Mean     & Bias        & MSE          & Skewness      & Kurtosis (excess) \\
     \hline
-    10  & 4.708924 & -0.2910758  & 0.08472515   & -1.50566e-08  & 1        \\
-    20  & 4.981209 & -0.01879081 & 0.0003530945 & 0             & 1        \\
-    50  & 5.190263 & 0.190263    & 0.03620001   & 1.659551e-08  & 1        \\
-    90  & 5.078463 & 0.07846326  & 0.006156484  & -1.623733e-08 & 1        \\
-    140 & 5.088773 & 0.08877251  & 0.007880559  & -1.627026e-08 & 1        \\
+    10  & 4.708924 & -0.2910758  & 0.08472515   & -1.50566e-08  & 1                 \\
+    20  & 4.981209 & -0.01879081 & 0.0003530945 & 0             & 1                 \\
+    50  & 5.190263 & 0.190263    & 0.03620001   & 1.659551e-08  & 1                 \\
+    90  & 5.078463 & 0.07846326  & 0.006156484  & -1.623733e-08 & 1                 \\
+    140 & 5.088773 & 0.08877251  & 0.007880559  & -1.627026e-08 & 1                 \\
     \hline
   \end{tabular}
   \caption{Monte Carlo Simulation Results for Different Values of $n$}
@@ -72,37 +72,36 @@
 % ----- Data Analysis -----
 \section{Analysis}
 
-\subsection{Observations from the small scenario}
+\subsection{Observations}
+Kurtosis is constant for all sample-sizes which is unexpected. Skewness in n = 20 is 0 indication that it's symmetric.
+The bias decreases from n = 10 to n=20 but then flucturates at larger n.
 
+The MSE decrease the larger the sample size but increases and spikes in n=50. There is a large decrease form n=10 to n=20.
 
-$\hat{N}_2$ is most accurate overall with inaccuracy in smaller sample sizes. $\hat{N}_1$ is most accurate for smaller sample sizes and demonstrates higher consistency, with a marginally lower variance.$\hat{N}_3$ is relatively inaccurate with a high variance which leads to low consistency.
-
-
-\subsection{Observations from the large scenario}
-
-
-$\hat{N}_2$ is most accurate overall with inaccuracy in smaller sample sizes.$\hat{N}_1$ generally exhibits the lowest variance but has high inaccuracies for smaller sample sizes.$\hat{N}_3$ is relatively inaccurate with a high variance which leads to low consistency.
 
 \subsection{Discussion}
+The reason for the constant value in kurtosis is because of the small amount of estimations. For each sample-size only two estimations are made (one numerical and one analytical).
+This will lead to unmeaningfull kurtosis values which is why we don't see an increase or decrease in kurtosis when sample-size changes because estimations would also have to
+increase in order to see changes. We can also see how the same limitations of the estimations affect the skewness. Though not constant the variation is very small
+with skewness being 0 at n=20 which is an expected result when using such small sample-space and estimations because both theese values are veru susspetiable to sample-size and amount of estimations.
 
-\begin{comment}
-Figure 1 shows the mean estimations from the two experiments. The upper part of the figure for the small scenario and the lower part for the large scenario. It is observed that for all estimators, the variance decreases as the sample size increases, which aligns with the formula derived from the Central Limit Theorem.
-\end{comment}
+It is also possible to see how the estiamtions first underestimate on smaller sample sizes. But on larger sample sizes overestimates with the most accurate being
+a sligh underestimation in n=20.
 
-In Figure 1, it is clear that all all estimators generally follow the Law of Large Numbers, where larger sample sizes tend to produce smaller variances, making the estimators more consistent and stable. However, there are still apparent spikes and deviations from this behavior. For example, in the large scenario, $\hat{N}_3$ variance jumps from 193 to 723 before eventually decreasing.
+THE MSE decreases the larger the sample size which follow the law of large numbers. However, it spikes in n=50 this could be because of the sample size and
+because of outliers in the estimations.
 
-This can be explained by the sensitivity of the estimator to outliers or inherent instability when working with random sampling. The high variance of 723 demonstrates how unstable $\hat{N}_3$ can be when dealing with extreme values in the sample. This result is not an anomaly but highlights the nature of $\hat{N}_3$. The reason is that $\hat{N}_3$ is based on the sample mean, which is highly susceptible to outliers or extreme values, especially for small sample sizes.
 
-To address this, increasing the sample size and the number of repetitions would help stabilize the variance for all estimators, but especially for $\hat{N}_3$.
+
+
 
 
 \subsection{Conclusions}
 
 \begin{itemize}
-  \item $\hat{N}_1$: Best suited for smaller N values. Consistent with low variance.
-  \item $\hat{N}_2$: The most accurate estimator in both small and large scenarios.
-  \item $\hat{N}_3$: Highly unstable, particularly with small sample sizes, due to its reliance on the sample mean, which is prone to large variances from extreme values.
-  \item Law of Large Numbers: Observed in general trends, but temporary spikes can still occur, especially in $\hat{N}_3$ due to sensitivity to random fluctuations.
+  \item Gets more inaccurate the larger the sample size.
+  \item The distirbutions follows overall the law of large numbers.
+  \item The few estimations affect the meningfullness of Kurtosis and Skewness.
 \end{itemize}
 
 \end{document}
