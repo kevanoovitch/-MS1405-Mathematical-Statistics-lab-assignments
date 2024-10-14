@@ -57,12 +57,21 @@ calc_mse = function(estimates, true_value){
     return(mean((estimates) - true_value)^2)
 }
 
+manual_kurtosis = function(x) {
+    n = length(x)
+    mean_x = mean(x)
+    s2 = sum((x - mean_x)^2) / n  # Variance
+    s4 = sum((x - mean_x)^4) / n  # Fourth central moment
+    return(s4 / (s2^2) - 3)  # Excess kurtosis
+}
+
 calculate_metrics = function(estimates, true_value){
     mean_estimate = mean(estimates)
     bias = calc_bias(estimates,true_value)
     mse = calc_mse(estimates,true_value)
     skewness_val = skewness(estimates)
     kurtosis_val = kurtosis(estimates)
+    #kurtosis_val = manual_kurtosis(estimates) 
 
     return(list(mean = mean_estimate, bias = bias, mse=mse, skewness = skewness_val,kurtosis=kurtosis_val))
 }
@@ -160,14 +169,11 @@ true_mu = 5;
 all_results = list()
 
 
-# -- Menu --- #
+ # Run the Monte Carlo simulation and store results
+    bias_mse_df = data.frame(Sample_Size = integer(), Bias = double(), MSE = double())
+    estimate_df = data.frame(Sample_Size = integer(), Estimate = double())
 
-while(TRUE) {
-  cat("1: number results\n")
-  cat("2: plots results\n")
-  MenuChoice <- as.integer(readline(prompt = "Choose one option: "))
 
-  if (MenuChoice == 1) {
 
     # --- Numbers loop --- #
 
@@ -186,43 +192,30 @@ while(TRUE) {
 
     }
 
-    break
-
-  } else if (MenuChoice == 2) {
-
-    # Run the Monte Carlo simulation and store results
-    bias_mse_df = data.frame(Sample_Size = integer(), Bias = double(), MSE = double())
-    estimate_df = data.frame(Sample_Size = integer(), Estimate = double())
-
-    for (n in n_value) {
-    result = computation(n)
-    cleaned_result = clean_results(list(result$numerical_result, result$analytical_maximization), true_mu)
-    
-    if (is.list(cleaned_result)) {
-        # Store bias and MSE
-        bias_mse_df = rbind(bias_mse_df, data.frame(
-            Sample_Size = n,
-            Bias = cleaned_result$metrics$bias,
-            MSE = cleaned_result$metrics$mse
-        ))
+   for (n in n_value) {
+        result = computation(n)
+        cleaned_result = clean_results(list(result$numerical_result, result$analytical_maximization), true_mu)
         
-        # Store estimates for each sample size
-        estimate_df = rbind(estimate_df, data.frame(
-            Sample_Size = rep(n, length(cleaned_result$converged_estimates)),
-            Estimate = cleaned_result$converged_estimates
-        ))
-        
-        # Plot the histogram for this sample size
-        print(plot_histogram(cleaned_result$converged_estimates, n))
-        
+        if (is.list(cleaned_result)) {
+            # Store bias and MSE
+            bias_mse_df = rbind(bias_mse_df, data.frame(
+                Sample_Size = n,
+                Bias = cleaned_result$metrics$bias,
+                MSE = cleaned_result$metrics$mse
+            ))
+            
+            # Store estimates for each sample size
+            estimate_df = rbind(estimate_df, data.frame(
+                Sample_Size = rep(n, length(cleaned_result$converged_estimates)),
+                Estimate = cleaned_result$converged_estimates
+            ))
+            
+            # Plot the histogram for this sample size
+            print(plot_histogram(cleaned_result$converged_estimates, n))
+        }
     }
 
-   
 
-
-    
-
-} 
     #After for loop
      # Plot Bias and MSE across sample sizes
     print(plot_bias_mse(bias_mse_df))
@@ -233,11 +226,10 @@ while(TRUE) {
     # Plot Bias vs MSE scatter plot
     print(plot_bias_vs_mse(bias_mse_df))
 
-    break
-} else {
-    cat("Error: select 1 or 2\n")
-  }
-}
+  
+    
+
+
 
 
 

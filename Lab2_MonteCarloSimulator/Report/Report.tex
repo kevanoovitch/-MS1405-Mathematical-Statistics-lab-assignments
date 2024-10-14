@@ -1,0 +1,108 @@
+\documentclass{report}
+\usepackage[utf8]{inputenc}   % Encoding support
+\usepackage{graphicx}         % To include images
+\usepackage{listings}         % For code formatting
+\usepackage{xcolor}           % To add colors
+\usepackage{hyperref}         % For clickable links and references
+\usepackage{amsmath, amssymb,amsthm} %For math
+\usepackage{comment}
+\usepackage{float}
+\usepackage{minted}
+
+
+\title{Report I}
+\author{Kevin Deshayes}
+\date{\2024-10-02}
+
+\begin{document}
+
+% ----- Title Page -----
+\begin{titlepage}
+  \centering
+  {\huge\bfseries Report on Lab 1 \\[1cm]}  % Title
+  \textbf{Author:} Kevin Deshayes\\[0.5cm]  % Author Name
+  \textbf{Email:} kede23@student.bth.se\\[0.5cm]  % Email
+  \textbf{Course Name:} Mathematical Statistics \\[0.5cm]  % Course Name
+  \textbf{Course Code:} MS1403\\[1.5cm]  % Course Code
+
+  \includegraphics[width=0.6\textwidth]{BTH_logo_gray.png} % Placeholder image
+  \vfill
+  \vspace{2cm}
+\end{titlepage}
+
+% ----- Table of Contents -----
+\tableofcontents
+\newpage
+% ----- Code Example -----
+\section{R code}
+
+
+
+\begin{minted}[breaklines, linenos, frame=single, bgcolor=lightgray]{r}
+#CODE HERE
+\end{minted}
+
+% ----- Results -----
+\section{Results}
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|}
+    \hline
+    $n$ & Mean     & Bias        & MSE          & Skewness      & Kurtosis \\
+    \hline
+    10  & 4.708924 & -0.2910758  & 0.08472515   & -1.50566e-08  & 1        \\
+    20  & 4.981209 & -0.01879081 & 0.0003530945 & 0             & 1        \\
+    50  & 5.190263 & 0.190263    & 0.03620001   & 1.659551e-08  & 1        \\
+    90  & 5.078463 & 0.07846326  & 0.006156484  & -1.623733e-08 & 1        \\
+    140 & 5.088773 & 0.08877251  & 0.007880559  & -1.627026e-08 & 1        \\
+    \hline
+  \end{tabular}
+  \caption{Monte Carlo Simulation Results for Different Values of $n$}
+\end{table}
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{plot.png}
+  \caption{Generated Bias \& Mean plot}
+  \label{fig:enter-label}
+\end{figure}
+
+
+% ----- Data Analysis -----
+\section{Analysis}
+
+\subsection{Observations from the small scenario}
+
+
+$\hat{N}_2$ is most accurate overall with inaccuracy in smaller sample sizes. $\hat{N}_1$ is most accurate for smaller sample sizes and demonstrates higher consistency, with a marginally lower variance.$\hat{N}_3$ is relatively inaccurate with a high variance which leads to low consistency.
+
+
+\subsection{Observations from the large scenario}
+
+
+$\hat{N}_2$ is most accurate overall with inaccuracy in smaller sample sizes.$\hat{N}_1$ generally exhibits the lowest variance but has high inaccuracies for smaller sample sizes.$\hat{N}_3$ is relatively inaccurate with a high variance which leads to low consistency.
+
+\subsection{Discussion}
+
+\begin{comment}
+Figure 1 shows the mean estimations from the two experiments. The upper part of the figure for the small scenario and the lower part for the large scenario. It is observed that for all estimators, the variance decreases as the sample size increases, which aligns with the formula derived from the Central Limit Theorem.
+\end{comment}
+
+In Figure 1, it is clear that all all estimators generally follow the Law of Large Numbers, where larger sample sizes tend to produce smaller variances, making the estimators more consistent and stable. However, there are still apparent spikes and deviations from this behavior. For example, in the large scenario, $\hat{N}_3$ variance jumps from 193 to 723 before eventually decreasing.
+
+This can be explained by the sensitivity of the estimator to outliers or inherent instability when working with random sampling. The high variance of 723 demonstrates how unstable $\hat{N}_3$ can be when dealing with extreme values in the sample. This result is not an anomaly but highlights the nature of $\hat{N}_3$. The reason is that $\hat{N}_3$ is based on the sample mean, which is highly susceptible to outliers or extreme values, especially for small sample sizes.
+
+To address this, increasing the sample size and the number of repetitions would help stabilize the variance for all estimators, but especially for $\hat{N}_3$.
+
+
+\subsection{Conclusions}
+
+\begin{itemize}
+  \item $\hat{N}_1$: Best suited for smaller N values. Consistent with low variance.
+  \item $\hat{N}_2$: The most accurate estimator in both small and large scenarios.
+  \item $\hat{N}_3$: Highly unstable, particularly with small sample sizes, due to its reliance on the sample mean, which is prone to large variances from extreme values.
+  \item Law of Large Numbers: Observed in general trends, but temporary spikes can still occur, especially in $\hat{N}_3$ due to sensitivity to random fluctuations.
+\end{itemize}
+
+\end{document}
