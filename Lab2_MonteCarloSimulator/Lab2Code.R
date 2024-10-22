@@ -131,21 +131,22 @@ plot_mean_estimates <- function(estimate_df_numerical, estimate_df_analytical, t
 # Function to plot the bell curves
 plot_bell_curve <- function(numerical_estimates, analytical_estimates, true_mu) {
     # Convert estimates to data frames for plotting
-    df_numerical <- data.frame(Estimate = numerical_estimates, Method = "Numerical")
-    df_analytical <- data.frame(Estimate = analytical_estimates, Method = "Analytical")
+    df_numerical <- data.frame(x = numerical_estimates, Method = "Numerical")
+    df_analytical <- data.frame(x = analytical_estimates, Method = "Analytical")
     
     # Combine the two data frames
     df_combined <- rbind(df_numerical, df_analytical)
     
     # Get standard deviation for the normal distribution based on estimates
-    combined_sd <- sd(df_combined$Estimate)
+    combined_sd <- sd(df_combined$x)
 
     # Create the normal distribution curve using the true_mu and calculated std deviation
     normal_curve <- data.frame(
-        x = seq(min(df_combined$Estimate) - 1, max(df_combined$Estimate) + 1, length.out = 100),
-        y = dnorm(seq(min(df_combined$Estimate) - 1, max(df_combined$Estimate) + 1, length.out = 100),
+        x = seq(min(df_combined$x) - 1, max(df_combined$x) + 1, length.out = 100),
+        y = dnorm(seq(min(df_combined$x) - 1, max(df_combined$x) + 1, length.out = 100),
                   mean = true_mu,
-                  sd = combined_sd)
+                  sd = combined_sd),
+        Method = "Normal"
     )
     
     # Scale the normal curve's density to match the density of estimates
@@ -153,15 +154,20 @@ plot_bell_curve <- function(numerical_estimates, analytical_estimates, true_mu) 
     normal_curve$y <- normal_curve$y * scale_factor
 
     # Plot the curves
-    ggplot(df_combined, aes(x = Estimate, color = Method)) +
-        geom_density(aes(linetype = Method), size = 1.2) +   # Plot density for numerical and analytical estimates
-        geom_line(data = normal_curve, aes(x = x, y = y), color = "black", linetype = "dashed", size = 1.2) +  # Add the normal distribution curve
+    ggplot() +
+        geom_density(data = df_combined, aes(x = x, color = Method, linetype = Method), size = 1.5) +   # Plot density for numerical and analytical estimates
+        geom_line(data = normal_curve, aes(x = x, y = y, color = Method, linetype = Method), size = 1.5) +  # Add the normal distribution curve
         labs(title = "Bell Curves for Numerical, Analytical, and Normal Distributions",
              x = "Estimate", y = "Density") +
         theme_minimal() +
-        scale_color_manual(values = c("Numerical" = "blue", "Analytical" = "red")) +
+        scale_color_manual(values = c("Numerical" = "blue", "Analytical" = "red", "Normal" = "black")) +
+        scale_linetype_manual(values = c("Numerical" = "dashed", "Analytical" = "solid", "Normal" = "dotted")) +
         theme(legend.position = "top")
 }
+
+
+
+
 
 # --- Main Computation --- #
 set.seed(123) # For reproducibility in different runs of the code
@@ -236,11 +242,11 @@ for (n in n_value) {
             ))
         }
     }
-
-    print(plot_histogram(cleaned_analytical$converged_estimates, n))    
+ 
 }
 
 # After the simulations
 # Call the function to plot the mean estimates
 print(plot_mean_estimates(estimate_df_numerical, estimate_df_analytical, true_mu = 5))
 print(plot_bell_curve(numerical_estimates, analytical_estimates, true_mu = 5))
+
